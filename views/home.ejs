@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="home.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat&display=swap" rel="stylesheet">
+<link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"
+  />
+</head>
+<body >
+    <div id="nv" class="head_navbar">
+        <img src="logo.png" style="width:160px;height:auto;">
+    </div>
+    <div class="main_section">
+        <table  id="table" class="word_table">
+            <tr>
+                <td ></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td rowspan="4" colspan="5">
+                <div class="main">
+                    
+                    <form class="room_form" action="\createRoom" method="POST">
+                        <input id="name_create" class="name" name="name" type="text" placeholder="Enter Your name" onblur="change();">
+                        <input class="name" id="room_create" name="room" type="text" placeholder="Create Room">
+                        <button class="create" id="create">Create</button>
+                    </form>
+                    <form class="room_form" action="\joinRoom" method="POST">
+                        <textarea style="display:none;" name="name_join" id="name_join"></textarea>
+                        <input class="name" id="room_join" name="room" type="text" placeholder="Join Room">
+                        <button class="create" id="join">Join</button>
+                    </form>
+                <div class="rules">
+                    <h4 >Rules:</h4>
+                    <p >1.Once You submit a word for a particular round you cannot undo your submission</p>
+                    <p>2.If your corresponding letter is colored <span style='color:green'>GREEN</span> it means the postion of your letter in the word is correct</p>
+                    <p>3.If your corresponding letter is colored <span style='color:yellow'>YELLOW</span> it means the postion of your letter in the word is incorrect however the letter does exist in the word</p>
+                    <p>4.If your corresponding letter is colored <span style='color:grey'>GREY</span> it means the letter doesnt exist in the word</p>
+                    <p>5.You will get a total of 7 minutes for the entire game with a total of 4 words</p>
+                    <p>Note<span color="red">*</span>:Per Room only 4 participants are allowed</p>
+                </div>
+                </div>
+                   
+                </td>
+            </tr>
+            <tr>
+                <td></td>
+            </tr>
+            <tr>
+                <td></td>
+            </tr>
+            <tr>
+                <td></td>
+            </tr>
+            <table>
+    </div>
+</body>
+<script src="/socket.io/socket.io.js"></script>
+<script>
+
+
+const socket=io.connect("http://localhost:3000/");
+
+
+document.getElementById("create").addEventListener("click",()=>{
+    let name=document.getElementById("name_create").value;
+    let room=document.getElementById("room_create").value;
+    socket.emit("new_host",name,room);
+});
+document.getElementById("join").addEventListener("click",()=>{
+    let name=document.getElementById("name_create").value;
+    let room=document.getElementById("room_join").value;
+    socket.emit("new_player",name,room);
+});
+
+
+let table=document.getElementById("table");
+let word1=["L","E","T","T","E","R"];
+let word2=["T","R","A","P"];
+
+
+window.onload=function(){
+    setTimeout(()=>{
+         setInterval(animation,500);
+    },1000)
+    
+    
+}
+
+function change(){
+    let val=document.getElementById("name_create").value;
+    document.getElementById("name_join").innerHTML=val;
+}
+function animation(){
+    let check=0;
+    let trap=0;
+let r=1;
+    for(i in table.rows){
+    let row=table.rows[i].cells;
+if(r==1){
+ for(j in row){
+     check++;
+     if(check<=6){
+          
+            row[j].style.backgroundColor="green";
+        row[j].innerHTML=word1[check-1];
+        row[j].style.transition="transform 1s";
+        row[j].style.transform = "rotate(360deg)";
+       
+     }
+ }
+}
+else{
+    setTimeout(handleTrap(row),3000);
+   function handleTrap(row){
+    for(j in row){
+       
+       row[j].style.backgroundColor="";
+       row[j].innerHTML=word2[trap];
+       row[j].style.transition="transform 1s";
+       row[j].style.transform = "rotate(360deg)";
+       row[j].style.transform = "rotate(-360deg)";
+       row[j].style.backgroundColor="rgb(167, 167, 29)";
+       trap++;
+       break;
+   }
+   }
+}
+r++;
+}
+ 
+    
+
+}
+
+</script>
+</html>

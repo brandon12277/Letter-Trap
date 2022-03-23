@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="/home.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat&display=swap" rel="stylesheet">
+<link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"
+  />
+</head>
+<style>
+    #start{
+        display:flex;
+        align-items: center;
+        justify-content: center;
+        width:100%;
+        
+    }
+    .lobby{
+        display:flex;
+        flex-direction: column;
+        gap:2%;
+        padding:1%;
+        align-items: center;
+        justify-content: center;
+        width:90%;
+       background:#1c1c1e;
+       color:white;
+    font-family: 'Montserrat', sans-serif;
+    text-align: left;
+    }
+    .players{
+        display: flex;
+        gap:2%;
+        margin-bottom: 2%;
+    }
+</style>
+<body >
+    <div id="nv" class="head_navbar">
+        <img src="/logo.png" style="width:200px;height:auto;">
+    </div>
+    <div class="main_section">
+        <table  id="table" class="word_table">
+            <tr>
+               <div id="players" class="players"></div>
+               <div id="start">
+                <form  action="\Game" method="POST">
+                    <textarea  style="display:none;" name="room"><%=roomName%></textarea>
+                    <textarea  style="display:none;" name="name"><%= name %></textarea>
+            <div class="lobby" id="lobby">
+                <h2 style="text-align:center;">Lobby</h2>
+                <br></br>
+                <div style="width:100%;display:flex;justify-content:center;flex-direction: row;gap:2%;">
+                    <label >Number of Words : </label>
+                    <select id="words" name="num_words" onchange="ChangeWord()">
+                        <option>4</option>
+                        <option>5</option>
+                        <option>6</option>
+                    </select>
+                </div>
+                <br></br>
+                <div style="width:100%;display:flex;justify-content:center;display:flex;flex-direction: row;gap:2%;">
+                <label name="time_limit">Time limit(minutes) : </label>
+                <select id="time" onchange="ChangeTime()">
+                    <option>7</option>
+                    <option>10</option>
+                    <option>12</option>
+                </select>
+                </div>
+                <br></br>
+                <button style="padding:1%;" id="start_game" class="create">Start Game</button>
+                <br></br>
+            </div>
+                 
+                </form>
+               </div>
+              
+              
+            </tr>
+        <table>
+    </div>
+</body>
+<script>
+    const mode="<%= mode %>"
+    const room="<%= roomName %>";
+    const per_name="<%= name %>";
+    const words="<%= word %>";
+    const time="<%= time %>";
+    let on_start=false;
+</script>
+<script src="/socket.io/socket.io.js"></script>
+<script src="/lobby.js"></script>
+
+</html>
