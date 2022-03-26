@@ -106,6 +106,7 @@ function getRandomWords(room){
 app.post("/Game",(req,res)=>{
     let room=req.body.room;
     let name=req.body.name;
+    try{
     let route="/"+room+"/game"+"?name="+name;
     rooms[room].words=getRandomWords(room);
     if(rooms[room].limit>1)
@@ -115,6 +116,10 @@ app.post("/Game",(req,res)=>{
           delete rooms[room];
           res.redirect("/");
       }
+    }
+    catch(e){
+        res.redirect("/");
+    }
 })
 io.on('connection',socket=>{
     socket.on("send-user-info",room=>{
