@@ -64,9 +64,13 @@ app.get("/:room/lobby",(req,res)=>{
     let name=req.query.name;
     let mode=req.query.mode;
     try{
+    if(rooms[room].started==false){
     let time=rooms[room].time_limit;
     let word=rooms[room].num_words;
     res.render("lobby",{roomName:room,name:name,mode:mode,time:time,word:word});
+    }
+    else
+    res.redirect("/");
     }
     catch(e){
         res.redirect("/");
