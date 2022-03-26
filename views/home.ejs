@@ -16,7 +16,7 @@
 </head>
 <body >
     <div id="nv" class="head_navbar">
-        <img src="logo.png" style="width:160px;height:auto;">
+        <img src="logo.png" style="width:200px;height:auto;">
     </div>
     <div class="main_section">
         <table  id="table" class="word_table">
@@ -34,13 +34,13 @@
                 <div class="main">
                     
                     <form class="room_form" action="\createRoom" method="POST">
-                        <input id="name_create" class="name" name="name" type="text" placeholder="Enter Your name" onblur="change();">
-                        <input class="name" id="room_create" name="room" type="text" placeholder="Create Room">
+                        <input id="name_create" class="name" name="name" type="text" placeholder="Enter Your name" onblur="change();" required>
+                        <input class="name" id="room_create" name="room" type="text" placeholder="Create Room" required>
                         <button class="create" id="create">Create</button>
                     </form>
                     <form class="room_form" action="\joinRoom" method="POST">
-                        <textarea style="display:none;" name="name_join" id="name_join"></textarea>
-                        <input class="name" id="room_join" name="room" type="text" placeholder="Join Room">
+                        <textarea style="display:none;" name="name_join" id="name_join" required></textarea>
+                        <input class="name" id="room_join" name="room" type="text" placeholder="Join Room" required>
                         <button class="create" id="join">Join</button>
                     </form>
                 <div class="rules">
@@ -49,7 +49,7 @@
                     <p>2.If your corresponding letter is colored <span style='color:green'>GREEN</span> it means the postion of your letter in the word is correct</p>
                     <p>3.If your corresponding letter is colored <span style='color:yellow'>YELLOW</span> it means the postion of your letter in the word is incorrect however the letter does exist in the word</p>
                     <p>4.If your corresponding letter is colored <span style='color:grey'>GREY</span> it means the letter doesnt exist in the word</p>
-                    <p>5.You will get a total of 7 minutes for the entire game with a total of 4 words</p>
+                    <p>5.The total time and number of words can be set according to your wish in the lobby</p>
                     <p>Note<span color="red">*</span>:Per Room only 4 participants are allowed</p>
                 </div>
                 </div>

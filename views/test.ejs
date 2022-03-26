@@ -1,0 +1,119 @@
+<head>
+    <base href="/">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="game.css">
+ 
+</head>
+<link rel="stylesheet" href="game.css">
+<div id="game_over">
+    <div id="scoreboard"></div>
+    <img style="width:100%" src="gameover.gif">
+    <h1 id="waiting">Waiting for others to finish <img style="border-radius: 80%;height:auto;width:20px;" src="1495.gif"></h1>
+    <button id="go_to"><a style="text-decoration: none;color:white;" href="/">Go back</a></button>
+</div>
+<script>
+    logos=["A.gif","B.gif","N.gif","W.gif"];
+    per_name="brandon"
+    window.onload=()=>{
+        players={
+            "1":"brandon",
+            "2":"shantanu",
+            "3":"surin",
+            "4":"dfgdfg"
+       }
+      score={
+        "brandon":200,
+            "shantanu":200,
+            "surin":200,
+            "dfgdfg":200
+       }
+        present_Players(players,score)
+    }
+     function present_Players(players,score){
+        let to_add="";
+          
+            Object.keys(players).map(person=>{
+                
+             to_add+=players[person]+",";
+               
+            });  
+            addPlayer(to_add,score);
+     }
+    function addPlayer(people,score){
+        let cnt=0;
+        let div=document.createElement('div');
+        div.style.width="100%";
+        div.style.fontFamily="'Montserrat', sans-serif";
+        div.style.display="flex";
+        div.style.alignItems="center";
+        div.style.justifyContent="center";
+        div.style.flexDirection="row";
+        div.style.gap="2%";
+        let first=0;
+        let elem=makeDiv("You",logos[cnt],score[per_name]);
+        div.append(elem);
+        cnt++;
+        for(let i=0;i<people.length;i++){
+           if(people[i]==',' || i==people.length-1){
+            if(people.substring(first,i)==per_name){
+                first=i+1;
+             }
+             else{
+             elem=makeDiv(people.substring(first,i),logos[cnt],score[people.substring(first,i)]);
+           
+             div.append(elem);
+             first=i+1;
+             cnt++;
+             }
+              
+           }
+          
+        }
+        document.getElementById("scoreboard").innerHTML="";
+        document.getElementById("scoreboard").append(div);
+     }
+     function makeDiv(person,logo,points){
+        let elem=document.createElement('div');
+        elem.style.color="white";
+        // elem.style.padding="2%";
+        elem.style.display="flex";
+        elem.style.flexDirection="row";
+        elem.style.fontSize="bold";
+        elem.style.fontFamily="'Montserrat', sans-serif";
+        elem.style.textTransform="uppercase";
+        // elem.style.textAlign="center";
+        elem.style.borderRadius="10px";
+        let img=document.createElement("img");
+        img.src="\\"+logo;
+        img.style.width="50px";
+        img.style.height="50px";
+        let num=document.createElement("span")
+        num.id="sc";
+        num.style.paddingLeft="5px";
+        let div2=document.createElement("div");
+        div2.style.display="flex";
+        div2.style.flexDirection="column";
+        num.append(points);
+        elem.append(img);
+        div2.append(person);
+        let score=document.createElement("p");
+        score.style.display="flex";
+        score.append("Score : ");
+        score.append(num);
+        div2.append(score);
+        elem.append(div2);
+        return elem;
+     }
+
+</script>

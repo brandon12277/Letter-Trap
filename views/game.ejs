@@ -10,7 +10,12 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="game.css">
+
  
 </head>
 <body>
@@ -25,7 +30,7 @@
         
         <div class="nav_game_div" id="score">
            
-            </div>
+        </div>
             <div class="words_div">
                 <table  id="table" class="word_table">
                     <tr>
@@ -71,6 +76,13 @@
                         <td></td>
                     </tr>
                 </table>
+                <div id="game_over">
+                    <img style="width:90%;" src="gameover.gif">
+                    <button onclick="waiting();" style="background-color:rgb(170, 32, 32);"><a style="text-decoration: none;">Scoreboard</a></button>
+                    <p id="waiting">Waiting for others to finish <img style="border-radius: 80%;height:auto;width:20px;" src="1495.gif"></p>
+                </div>
+                <div id="scoreboard">
+                </div>
             </div>
         <div id="keys" class="keyboard">
             <div  class="keys_1">
@@ -113,14 +125,15 @@
        
     </div>
     <div id="after_comp">
-         <h2 style="font-weight: bold;" id="word_reveal"></h2>
-         <h4 id="score_added"></h4>
-         <button id="go_to">Next Word</button>
+        <div style="display:flex;flex-direction: column;">
+            <h2 style="font-weight: bold;" id="word_reveal"></h2>
+        <h4 id="score_added"></h4>
+        <h4 id="time_taken"></h4>
+        <button id="go_to">Next Word</button>
     </div>
-    <div id="game_over">
-        <h3>GAME OVER</h3>
-        <button id="go_to"><a href="/">Go back</a></button>
+    
     </div>
+    
 </body>
 <script>
 </script>

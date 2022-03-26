@@ -17,7 +17,9 @@ const io = new Server(server,{
 const port=3000;
 app.use(express.static("static"));
 
-
+app.get("/test",(req,res)=>{
+    res.render("test",{})
+})
 app.set("view engine","ejs");
 app.use(bodyParser.urlencoded({extended:false}));
 
@@ -26,7 +28,7 @@ app.post("/createRoom",(req,res)=>{
     let room=req.body.room;
     let name=req.body.name;
     let mode="host";
-     if(rooms[room].created){
+    if(Object.keys(rooms[room].players).length==1 && rooms[room].host==rooms[room].players[Object.keys(rooms[room].players)[0]]){
         let roomname="/"+room+"/lobby"+"/?name="+name+"&"+"mode="+mode;
         return res.redirect(roomname);
     } 
@@ -59,9 +61,14 @@ app.get("/:room/lobby",(req,res)=>{
     let room=req.params.room;
     let name=req.query.name;
     let mode=req.query.mode;
+    try{
     let time=rooms[room].time_limit;
     let word=rooms[room].num_words;
     res.render("lobby",{roomName:room,name:name,mode:mode,time:time,word:word});
+    }
+    catch(e){
+        res.redirect("/");
+    }
 });
 
 
@@ -69,7 +76,12 @@ app.get("/:room/lobby",(req,res)=>{
 app.get("/:room/game",(req,res)=>{
     let room=req.params.room;
     let name=req.query.name;
+    try{
     res.render("game",{room:room,name:name,time:rooms[room].time_limit,words:rooms[room].words});
+    }
+    catch(e){
+        res.redirect("/");
+    }
    
 });
 
@@ -110,6 +122,14 @@ io.on('connection',socket=>{
         rooms[room].score[person]=score;
         socket.to(room).emit("players",rooms[room].players,rooms[room].score);
     })
+
+    socket.on("allow_disp",(per_name,room)=>{
+        rooms[room].finished[per_name]=true;
+        socket.to(room).emit("show_scores",rooms[room].finished,rooms[room].players,rooms[room].score);
+    })
+    socket.on("show_in_screen",room=>{
+        socket.to(room).emit("show_scoreboard_on_own_screen",rooms[room].players,rooms[room].score);
+    })
     socket.on("disconnect",()=>{
         try{
        let room=socket.handshake.query.room;
@@ -118,7 +138,7 @@ io.on('connection',socket=>{
         if(!rooms[room].started || running=="true"){
        Object.keys(rooms[room].players).map(person=>{
            if(rooms[room].players[person]==name)delete rooms[room].players[person];
-           if(rooms[room].players==null)delete rooms[room];
+           if(Object.keys(rooms[room].players).length==0)delete rooms[room];
        })
        socket.to(room).emit("players",rooms[room].players,rooms[room].score);
         }
@@ -161,7 +181,10 @@ io.on('connection',socket=>{
      if(!rooms[room].started || running=="true"){
         console.log(rooms[room].players)
     Object.keys(rooms[room].players).map(person=>{
-        if(rooms[room].players[person]==name)delete rooms[room].players[person];
+        if(rooms[room].players[person]==name){
+            delete rooms[room].players[person];
+            delete rooms[room].finished[name];
+        }
         if(rooms[room].players=={})delete rooms[room];
     })
     socket.to(room).emit("user_name", rooms[room].players);
@@ -190,6 +213,7 @@ io.on('connection',socket=>{
     socket.join(room);
     rooms[room].players[socket.id]=per_name;
     rooms[room].score[per_name]=0;
+    rooms[room].finished[per_name]=false;
     rooms[room].created=false;
     socket.to(room).emit("user-connected",(rooms[room].players));
 }
@@ -197,10 +221,11 @@ io.on('connection',socket=>{
 
    socket.on("new_host",(per_name,room)=>{
     if(rooms[room]==null){
-        rooms[room]={players:{},limit:1,host:per_name,created:true,num_words:4,time_limit:7,started:false,score:{},running:false,words:[]};
+        rooms[room]={players:{},limit:1,host:per_name,created:true,num_words:4,time_limit:7,started:false,score:{},running:false,words:[],finished:{}};
        socket.join(room);
        rooms[room].players[socket.id]=per_name;
        rooms[room].score[per_name]=0;
+       rooms[room].finished[per_name]=false;
        socket.to(room).emit("user-connected",rooms[room].players);
        
     } 
