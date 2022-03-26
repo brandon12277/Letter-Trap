@@ -120,6 +120,7 @@ button{
     text-align: center;
 }
 #after_comp{
+    margin-top:15%;
     display:none;
     flex-direction: row;
    align-items: center;
