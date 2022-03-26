@@ -14,7 +14,7 @@ const io = new Server(server,{
     methods:["GET","POST"]
     }
 })
-const port=3000;
+const port=3000 || process.env.PORT;;
 app.use(express.static("static"));
 
 app.get("/test",(req,res)=>{
