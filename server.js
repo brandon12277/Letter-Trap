@@ -10,11 +10,11 @@ const {Server}= require("socket.io");
 const { isObject } = require("util");
 const io = new Server(server,{
     cors:{
-    origin:"http://localhost:3000/",
+    origin:"https://lettertrap.herokuapp.com",
     methods:["GET","POST"]
     }
 })
-const port=3000;
+const port=3000 || process.env.PORT;
 app.use(express.static("static"));
 
 app.get("/test",(req,res)=>{

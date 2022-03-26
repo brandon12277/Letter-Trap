@@ -1,4 +1,4 @@
-const socket=io.connect("http://localhost:3000/?name="+per_name+"&room="+room+"&mode="+on_start);
+const socket=io.connect("https://lettertrap.herokuapp.com/?name="+per_name+"&room="+room+"&mode="+on_start);
 
 console.log(per_name);
 document.getElementById("time").value=time;

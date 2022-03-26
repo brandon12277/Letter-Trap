@@ -1,5 +1,5 @@
 
-const socket=io.connect("http://localhost:3000/?name="+per_name+"&room="+room+"&running=true");
+const socket=io.connect("https://lettertrap.herokuapp.com/?name="+per_name+"&room="+room+"&running=true");
 
 let seconds=0;
 let start_time=time*60;
